@@ -4,6 +4,7 @@ import Ingredients from './pages/Ingredients';
 import Freezbe from './pages/Freezbe';
 import Process from './pages/Process';
 import NotFound from './pages/NotFound';
+import Home from './pages/Home';
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Navbar/>
         <Routes>
+          <Route path="/" element={<Home/>}></Route>
           <Route path="/Ingredients" element={<Ingredients/>}></Route>
           <Route path="/Freezbe" element={<Freezbe/>}></Route>
           <Route path="/Process" element={<Process/>}></Route>

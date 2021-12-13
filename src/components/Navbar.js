@@ -4,8 +4,8 @@ import {AppBar, Box, Toolbar, Typography, IconButton, Button, makeStyles  } from
 import {Dialog, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
 import {Home, Menu, ChevronLeft, SportsBaseball} from '@mui/icons-material';
 
-import SignUpForm from './SignUpForms';
-import SignInForm from './SignInForms';
+import SignUpForm from './Forms/SignUpForms';
+import SignInForm from './Forms/SignInForms';
 
 
 const useStyles = makeStyles(theme => ({

@@ -21,11 +21,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Form = ({ handleClose }) => {
+const IngredientForm = ({ handleClose, item }) => {
   const classes = useStyles();
   // create state variables for each input
-  const [Nom, setNom] = useState('');
-  const [Description, setDescription] = useState('');
+  const [Nom, setNom] = useState(item.Ingredient.Nom || '');
+  const [Description, setDescription] = useState(item.Ingredient.Desc || '');
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -61,4 +61,4 @@ const Form = ({ handleClose }) => {
   );
 };
 
-export default Form;
+export default IngredientForm;
