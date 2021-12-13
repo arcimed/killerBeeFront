@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, Typography, IconButton  } from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
-import Dialog from '@mui/material/Dialog';
+import {NavLink} from 'react-router-dom'
+import {AppBar, Box, Toolbar, Typography, IconButton, Button, makeStyles  } from "@material-ui/core";
+import {Dialog, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
+import {Home, Menu, ChevronLeft, SportsBaseball} from '@mui/icons-material';
+
 import SignUpForm from './SignUpForms';
 import SignInForm from './SignInForms';
-import { makeStyles } from '@material-ui/core';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
+
 
 const useStyles = makeStyles(theme => ({
   BoxButton: {
@@ -22,6 +15,9 @@ const useStyles = makeStyles(theme => ({
   },
   Button: {
     marginRight: '10px',
+  },
+  link:{
+    textDecoration: 'none',
   },
 }));
 
@@ -34,12 +30,11 @@ export default function Navbar() {
     const [openSignUp, setOpenSignUp] = useState(false);
     const [openSide, setOpenSide] = useState(false);
 
-    const handleOpenSide = () => {
-      setOpenSide(true);
-    };
-  
-    const handleCloseSide = () => {
-      setOpenSide(false);
+    const toggleDrawer = (open) => (event) => {
+      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+      setOpenSide(open);
     };
 
     const handleOpenSignUp = () => {
@@ -62,13 +57,13 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleOpenSide}>
-            <MenuIcon />
+          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
+            <Menu />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
             KillerBee
           </Typography>
-          <Box className="App" className={classes.BoxButton}>
+          <Box className={classes.BoxButton}>
                 <Button variant="contained" color="#cddc39" className={classes.Button} onClick={handleOpenSignIn}>
                     Login
                 </Button>
@@ -84,35 +79,51 @@ export default function Navbar() {
             </Box>
         </Toolbar>
       </AppBar>
-      <Drawer open={openSide}>
-          <IconButton onClick={handleCloseSide}>
-             <ChevronLeftIcon />
+      <Drawer open={openSide} onClose={toggleDrawer(false)}>
+          <IconButton onClick={toggleDrawer(false)}>
+             <ChevronLeft />
           </IconButton>
         <List>
-          <ListItem button key={"home"}>
-            <ListItemIcon>
-              <HomeIcon></HomeIcon>
-            </ListItemIcon>
-            <ListItemText primary={"Accueil"} />
-          </ListItem>
-          <ListItem button key={"Card1"}>
-            <ListItemIcon>
-              <SportsBaseballIcon></SportsBaseballIcon>
-            </ListItemIcon>
-            <ListItemText primary={"Card1"} />
-          </ListItem>
-          <ListItem button key={"Card2"}>
-            <ListItemIcon>
-              <SportsBaseballIcon></SportsBaseballIcon>
-            </ListItemIcon>
-            <ListItemText primary={"Card2"} />
-          </ListItem>
-          <ListItem button key={"Card3"}>
-            <ListItemIcon>
-              <SportsBaseballIcon></SportsBaseballIcon>
-            </ListItemIcon>
-            <ListItemText primary={"Card3"} />
-          </ListItem>
+            <ListItem button key={"home"} >
+              <ListItemIcon>
+                <NavLink exact to="/" className={classes.link}>
+                  <Home></Home>
+                </NavLink>
+              </ListItemIcon>
+              <NavLink exact to="/" className={classes.link}>
+                <ListItemText primary={"Accueil"} />
+              </NavLink>
+            </ListItem>
+            <ListItem button key={"Freezbe"}>
+              <NavLink exact to="/Freezbe" className={classes.link}>
+                <ListItemIcon>
+                  <SportsBaseball></SportsBaseball>
+                </ListItemIcon>
+              </NavLink>
+              <NavLink exact to="/Freezbe" className={classes.link}>
+                <ListItemText primary={"Freezbe"} />
+              </NavLink>
+            </ListItem>
+            <ListItem button key={"Ingredients"}>
+              <NavLink exact to="/Ingredients" className={classes.link}>
+                <ListItemIcon>
+                  <SportsBaseball></SportsBaseball>
+                </ListItemIcon>
+              </NavLink>
+              <NavLink exact to="/Ingredients" className={classes.link}>
+                <ListItemText primary={"Ingredients"} />
+              </NavLink>
+            </ListItem>
+            <ListItem button key={"Process"}>
+              <NavLink exact to="/Process" className={classes.link}>
+                <ListItemIcon>
+                  <SportsBaseball></SportsBaseball>
+                </ListItemIcon>
+              </NavLink>
+              <NavLink exact to="/Process" className={classes.link}>
+                <ListItemText primary={"Process"} />
+              </NavLink>
+            </ListItem>
         </List>
       </Drawer>
     </Box>
