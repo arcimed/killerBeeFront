@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         marginTop:'3%',
-        marginLeft: '10%'
+        marginLeft: '10%',
+        marginBottom:'10%'
     },
     addButton:{
         marginTop:'3%',
@@ -64,6 +65,33 @@ const Freezbe = () => {
           Ingredient: [],
           Grammage: 10,
         },
+        {
+            id: 3,
+            Nom: 'Freezbe2',
+            Desc: ['Du plastique'],
+            pUHT: 'pUHT',
+            Gamme: 'Gamme 2',
+            Ingredient: [],
+            Grammage: 10,
+          },
+          {
+            id: 4,
+            Nom: 'Freezbe2',
+            Desc: ['Du plastique'],
+            pUHT: 'pUHT',
+            Gamme: 'Gamme 2',
+            Ingredient: [],
+            Grammage: 10,
+          },
+          {
+            id: 5,
+            Nom: 'Freezbe2',
+            Desc: ['Du plastique'],
+            pUHT: 'pUHT',
+            Gamme: 'Gamme 2',
+            Ingredient: [],
+            Grammage: 10,
+          },
     ];
     const classes = useStyles();
     const [openAdd, setOpenAdd] = useState(false);

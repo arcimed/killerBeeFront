@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         marginTop:'3%',
-        marginLeft: '10%'
+        marginLeft: '10%',
+        marginBottom:'15%'
     },
     addButton:{
         marginTop:'3%',
