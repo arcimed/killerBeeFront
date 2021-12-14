@@ -19,7 +19,9 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         marginTop:'3%',
         marginLeft: '10%',
-        marginBottom:'10%'
+        marginBottom:'10%',
+        marginRight: '10%',
+        flexWrap: 'wrap',
     },
     addButton:{
         marginTop:'3%',

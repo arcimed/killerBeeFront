@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   box: {
-    position:'sticky',
+    position:'static',
     bottom:'0',
     width:'100%',
   },
@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
     
   },
   img: {
-    width:'100px',
-    height:'100px',
+    width:'75px',
+    height:'75px',
     marginRight:'35%',
     },
 }));

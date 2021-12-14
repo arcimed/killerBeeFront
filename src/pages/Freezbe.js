@@ -19,7 +19,9 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         marginTop:'3%',
         marginLeft: '10%',
-        marginBottom:'10%'
+        marginBottom:'10%',
+        marginRight: '10%',
+        flexWrap: 'wrap',
     },
     addButton:{
         marginTop:'3%',
@@ -85,6 +87,15 @@ const Freezbe = () => {
           },
           {
             id: 5,
+            Nom: 'Freezbe2',
+            Desc: ['Du plastique'],
+            pUHT: 'pUHT',
+            Gamme: 'Gamme 2',
+            Ingredient: [],
+            Grammage: 10,
+          },
+          {
+            id: 6,
             Nom: 'Freezbe2',
             Desc: ['Du plastique'],
             pUHT: 'pUHT',
