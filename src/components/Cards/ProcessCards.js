@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {Dialog, CardActions, CardContent, Button, Typography, Card} from '@mui/material';
 
-import IngredientForm from "../Forms/IngredientForm";
+import ProcessForm from "../Forms/ProcessForm";
 
 const useStyles = makeStyles(theme => ({
   Card: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Cards(props) {
+export default function ProcessCards(props) {
   const classes = useStyles();
   const [openAdd, setOpenAdd] = useState(false);
 
@@ -26,20 +26,26 @@ export default function Cards(props) {
       console.log('delete')
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Process.id}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {props.Ingredient.Nom}
+        <Typography variant="h5"  component="div">
+            {props.Process.Nom}
         </Typography>
-        <Typography variant="h5" component="div">
-            {props.Ingredient.Desc}
+        <Typography color="text.secondary" gutterBottom>
+            {props.Process.Desc}
+        </Typography>
+        <Typography component="div">
+            Freezbe : {props.Process.Modele}
+        </Typography>
+        <Typography component="div">
+            Etape : {props.Process.Etape}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleOpenAdd} >Modifier</Button>
         <Button variant="contained" color="secondary"  onClick={handleDelete} >Supprimer</Button>
         <Dialog open={openAdd} onClose={handleCloseAdd}>
-            <IngredientForm handleClose={handleCloseAdd} item={props}/>
+            <ProcessForm handleClose={handleCloseAdd} item={props} freezbeData={props.freezbeData}/>
         </Dialog>
       </CardActions>
     </Card>

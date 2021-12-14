@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const IngredientForm = ({ handleClose, item }) => {
+const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   const classes = useStyles();
   // create state variables for each input
   const [Nom, setNom] = useState(item.Freezbe ? item.Freezbe.Nom :'');
@@ -39,18 +39,8 @@ const IngredientForm = ({ handleClose, item }) => {
   const [Gamme, setGamme] = useState(item.Freezbe ? item.Freezbe.Gamme: '');
   const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.Ingredient : []);
   const [Grammage, setGrammage] = useState(item.Freezbe ? item.Freezbe.Grammage : '');
-  const IngredientsData = [
-    {
-      id: 1,
-      Nom: 'Fer',
-      Desc: ['Du fer'],
-    },
-    {
-      id: 2,
-      Nom: 'Plastique',
-      Desc: ['Du plastique'],
-    },
-  ];
+  const [Data] = useState(ingredientsData ? ingredientsData : []);
+  
   const handleSubmit = e => {
     e.preventDefault();
     console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
@@ -105,7 +95,7 @@ const IngredientForm = ({ handleClose, item }) => {
           className={classes.formCase}
           input={<OutlinedInput label="Ingredient" />}
         >
-          {IngredientsData.map((option) => (
+          {Data.map((option) => (
           <MenuItem key={option.Nom} value={option.Nom}>
             {option.Nom}
           </MenuItem>

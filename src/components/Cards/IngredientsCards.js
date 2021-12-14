@@ -26,12 +26,12 @@ export default function Cards(props) {
       console.log('delete')
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Ingredient.id}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography variant="h5" component="div">
             {props.Ingredient.Nom}
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography  color="text.secondary" gutterBottom>
             {props.Ingredient.Desc}
         </Typography>
       </CardContent>

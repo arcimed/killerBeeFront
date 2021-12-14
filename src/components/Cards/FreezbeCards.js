@@ -26,20 +26,32 @@ export default function Cards(props) {
       console.log('delete')
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe.id}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography variant="h5" component="div" >
             {props.Freezbe.Nom}
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography color="text.secondary" gutterBottom >
             {props.Freezbe.Desc}
+        </Typography>
+        <Typography  component="div">
+            pUHT : {props.Freezbe.pUHT}
+        </Typography>
+        <Typography  component="div">
+            Gamme : {props.Freezbe.Gamme}
+        </Typography>
+        <Typography  component="div">
+            Ingredients : {props.Freezbe.Ingredient}
+        </Typography>
+        <Typography  component="div">
+            {props.Freezbe.Grammage} g
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleOpenAdd} >Modifier</Button>
         <Button variant="contained" color="secondary"  onClick={handleDelete} >Supprimer</Button>
         <Dialog open={openAdd} onClose={handleCloseAdd}>
-            <FreezbeForm handleClose={handleCloseAdd} item={props}/>
+            <FreezbeForm handleClose={handleCloseAdd} item={props} ingredientsData={props.ingredientsData}/>
         </Dialog>
       </CardActions>
     </Card>

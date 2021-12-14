@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {NavLink} from 'react-router-dom'
 import {AppBar, Box, Toolbar, Typography, IconButton, Button, makeStyles  } from "@material-ui/core";
 import {Dialog, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
-import {Home, Menu, ChevronLeft, SportsBaseball} from '@mui/icons-material';
+import {Home, Menu, ChevronLeft, SportsBaseball, Memory, Category} from '@mui/icons-material';
 
 import SignUpForm from './Forms/SignUpForms';
 import SignInForm from './Forms/SignInForms';
@@ -64,7 +64,7 @@ export default function Navbar() {
             KillerBee
           </Typography>
           <Box className={classes.BoxButton}>
-                <Button variant="contained" color="#cddc39" className={classes.Button} onClick={handleOpenSignIn}>
+                <Button variant="contained" color="default" className={classes.Button} onClick={handleOpenSignIn}>
                     Login
                 </Button>
                 <Dialog open={openSignIn} onClose={handleCloseSignIn}>
@@ -107,7 +107,7 @@ export default function Navbar() {
             <ListItem button key={"Ingredients"}>
               <NavLink exact to="/Ingredients" className={classes.link}>
                 <ListItemIcon>
-                  <SportsBaseball></SportsBaseball>
+                  <Category></Category>
                 </ListItemIcon>
               </NavLink>
               <NavLink exact to="/Ingredients" className={classes.link}>
@@ -117,7 +117,7 @@ export default function Navbar() {
             <ListItem button key={"Process"}>
               <NavLink exact to="/Process" className={classes.link}>
                 <ListItemIcon>
-                  <SportsBaseball></SportsBaseball>
+                  <Memory></Memory>
                 </ListItemIcon>
               </NavLink>
               <NavLink exact to="/Process" className={classes.link}>

@@ -34,7 +34,7 @@ const Form = ({ handleClose }) => {
     console.log(firstName, lastName, email, password);
     handleClose();
   };
-
+  
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
       <TextField
