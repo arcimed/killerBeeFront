@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,9 +42,33 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(Nom, Description);
-    handleClose();
-  };
+    if(item.Process) {
+      http.post(`api/processFreezbe/edit` + item.Process.id,
+      {
+        Nom: Nom,
+        Description: Description,
+        Modele: Modele,
+        Etape: Etape,
+      })
+      .then(response => {
+        console.log("processFreezbe ajouté");
+        console.log(Nom, Description);
+      }).catch()       
+    } else {
+      http.post(`api/processFreezbe/add`,
+      {
+        Nom: Nom,
+        Description: Description,
+        Modele: Modele,
+        Etape: Etape,
+      })
+      .then(response => {
+        console.log("processFreezbe ajouté");
+        console.log(Nom, Description);
+      }).catch() 
+    }
+      handleClose();
+    };
 
   const handleChange = (event) => {
     const {

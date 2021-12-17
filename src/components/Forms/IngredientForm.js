@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +31,27 @@ const IngredientForm = ({ handleClose, item }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if(item.Ingredient) {
+    http.post(`api/ingredient/edit` + item.Ingredient.id,
+      {
+        Nom: Nom,
+        Description: Description,
+      })
+      .then(response => {
+        console.log("ingredient ajouté");
+        console.log(Nom, Description);
+      }).catch()      
+    } else {
+      http.post(`api/ingredient/add`,
+      {
+        Nom: Nom,
+        Description: Description,
+      })
+      .then(response => {
+        console.log("ingredient ajouté");
+        console.log(Nom, Description);
+      }).catch()  
+    }
     console.log(Nom, Description);
     handleClose();
   };

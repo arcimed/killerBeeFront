@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
+import http from '../service/httpService';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     addButton:{
         marginTop:'3%',
         marginLeft: '47%',
+        [theme.breakpoints.down('sm')]: {
+          marginLeft: '35%',
+        },
     },
     search: {
         marginTop:'3%',
@@ -66,43 +70,7 @@ const Freezbe = () => {
           Gamme: 'Gamme 2',
           Ingredient: [],
           Grammage: 10,
-        },
-        {
-            id: 3,
-            Nom: 'Freezbe2',
-            Desc: ['Du plastique'],
-            pUHT: 'pUHT',
-            Gamme: 'Gamme 2',
-            Ingredient: [],
-            Grammage: 10,
-          },
-          {
-            id: 4,
-            Nom: 'Freezbe2',
-            Desc: ['Du plastique'],
-            pUHT: 'pUHT',
-            Gamme: 'Gamme 2',
-            Ingredient: [],
-            Grammage: 10,
-          },
-          {
-            id: 5,
-            Nom: 'Freezbe2',
-            Desc: ['Du plastique'],
-            pUHT: 'pUHT',
-            Gamme: 'Gamme 2',
-            Ingredient: [],
-            Grammage: 10,
-          },
-          {
-            id: 6,
-            Nom: 'Freezbe2',
-            Desc: ['Du plastique'],
-            pUHT: 'pUHT',
-            Gamme: 'Gamme 2',
-            Ingredient: [],
-            Grammage: 10,
-          },
+        }
     ];
     const classes = useStyles();
     const [openAdd, setOpenAdd] = useState(false);
@@ -118,12 +86,20 @@ const Freezbe = () => {
     };
 
     useEffect(() => {
+      http.get(`api/freezbe/`)
+            .then((response) => {
+                setData(response.data.data)
+            }).catch()
+      
+    }, [])
+
+    useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
             const filter = FreezbeData.filter(freezbe => {
                 return freezbe.Nom.toLowerCase().includes(query.toLowerCase())
                })
           setData(filter)
-          if (query == '') {
+          if (query === '') {
             setData(FreezbeData)
           }
       }, [query])

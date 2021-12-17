@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +44,36 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
+    if(item.Freezbe) {
+      http.put(`api/freezbe/edit` + item.Freezbe.id,
+      {
+        Nom: Nom,
+        Description: Description,
+        pUHT : pUHT,
+        Gamme : Gamme,
+        Ingredients : Ingredients,
+        Grammage : Grammage,
+      })
+      .then(response => {
+        console.log("freezbe ajouté");
+        console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
+      }).catch()
+    } else {
+      http.post(`api/freezbe/add`,
+      {
+        Nom: Nom,
+        Description: Description,
+        pUHT : pUHT,
+        Gamme : Gamme,
+        Ingredients : Ingredients,
+        Grammage : Grammage,
+      })
+      .then(response => {
+        console.log("freezbe ajouté");
+        console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
+      }).catch()
+    }
+   
     handleClose();
   };
 

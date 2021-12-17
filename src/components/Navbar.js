@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {NavLink} from 'react-router-dom'
 import {AppBar, Box, Toolbar, Typography, IconButton, Button, makeStyles  } from "@material-ui/core";
 import {Dialog, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@mui/material';
 import {Home, Menu, ChevronLeft, SportsBaseball, Memory, Category} from '@mui/icons-material';
+import Cookies from 'js-cookie'
 
-import SignUpForm from './Forms/SignUpForms';
 import SignInForm from './Forms/SignInForms';
 
 
@@ -27,8 +27,8 @@ export default function Navbar() {
 
     const classes = useStyles();
     const [openSignIn, setOpenSignIn] = useState(false);
-    const [openSignUp, setOpenSignUp] = useState(false);
     const [openSide, setOpenSide] = useState(false);
+    const [User, setUser] = useState(Cookies.get('user') ? Cookies.get('user') : false);
 
     const toggleDrawer = (open) => (event) => {
       if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -36,16 +36,10 @@ export default function Navbar() {
       }
       setOpenSide(open);
     };
-
-    const handleOpenSignUp = () => {
-      setOpenSignUp(true);
+    const handleDisconect = () => {
+      Cookies.remove('user', { path: '' })
+      setUser(false)
     };
-  
-    const handleCloseSignUp = () => {
-      setOpenSignUp(false);
-    };
-    
-
     const handleOpenSignIn = () => {
       setOpenSignIn(true);
     };
@@ -53,6 +47,70 @@ export default function Navbar() {
     const handleCloseSignIn = () => {
       setOpenSignIn(false);
     };
+
+    useEffect(() => {
+      if(Cookies.get('user')) {
+        setUser(Cookies.get('user'))
+      }
+    }, [openSignIn])
+
+    const renderConnect = () => {
+      return (
+        <Box>
+          <Button variant="contained" color="default" className={classes.Button} onClick={handleOpenSignIn}>
+          Login
+          </Button>
+          <Dialog open={openSignIn} onClose={handleCloseSignIn}>
+            <SignInForm handleClose={handleCloseSignIn}/>
+          </Dialog>
+        </Box>
+      )
+    }
+    const renderDisConnect = () => {
+      return (
+        <Box>
+          <Button variant="contained" color="secondary" className={classes.Button} onClick={handleDisconect}>
+          Deconnecter
+          </Button>
+        </Box>
+      )
+    }
+    const renderList = () => {
+      return (
+        <List>
+          <ListItem button key={"Freezbe"}>
+            <NavLink exact to="/Freezbe" className={classes.link}>
+              <ListItemIcon>
+                <SportsBaseball></SportsBaseball>
+              </ListItemIcon>
+            </NavLink>
+            <NavLink exact to="/Freezbe" className={classes.link}>
+              <ListItemText primary={"Freezbe"} />
+            </NavLink>
+          </ListItem>
+          <ListItem button key={"Ingredients"}>
+            <NavLink exact to="/Ingredients" className={classes.link}>
+              <ListItemIcon>
+                <Category></Category>
+              </ListItemIcon>
+            </NavLink>
+            <NavLink exact to="/Ingredients" className={classes.link}>
+              <ListItemText primary={"Ingredients"} />
+            </NavLink>
+          </ListItem>
+          <ListItem button key={"Process"}>
+            <NavLink exact to="/Process" className={classes.link}>
+              <ListItemIcon>
+                <Memory></Memory>
+              </ListItemIcon>
+            </NavLink>
+            <NavLink exact to="/Process" className={classes.link}>
+              <ListItemText primary={"Process"} />
+            </NavLink>
+          </ListItem>
+        </List>
+      )
+    }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -64,19 +122,9 @@ export default function Navbar() {
             KillerBee
           </Typography>
           <Box className={classes.BoxButton}>
-                <Button variant="contained" color="default" className={classes.Button} onClick={handleOpenSignIn}>
-                    Login
-                </Button>
-                <Dialog open={openSignIn} onClose={handleCloseSignIn}>
-                  <SignInForm handleClose={handleCloseSignIn} />
-                </Dialog>
-                <Button variant="contained" color="primary" onClick={handleOpenSignUp}>
-                    Signup
-                </Button>
-                <Dialog open={openSignUp} onClose={handleCloseSignUp}>
-                  <SignUpForm handleClose={handleCloseSignUp} />
-                </Dialog>
-            </Box>
+            {User === false ? renderConnect() : renderDisConnect() }
+            {User === true ? renderDisConnect() : null }       
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer open={openSide} onClose={toggleDrawer(false)}>
@@ -94,37 +142,8 @@ export default function Navbar() {
                 <ListItemText primary={"Accueil"} />
               </NavLink>
             </ListItem>
-            <ListItem button key={"Freezbe"}>
-              <NavLink exact to="/Freezbe" className={classes.link}>
-                <ListItemIcon>
-                  <SportsBaseball></SportsBaseball>
-                </ListItemIcon>
-              </NavLink>
-              <NavLink exact to="/Freezbe" className={classes.link}>
-                <ListItemText primary={"Freezbe"} />
-              </NavLink>
-            </ListItem>
-            <ListItem button key={"Ingredients"}>
-              <NavLink exact to="/Ingredients" className={classes.link}>
-                <ListItemIcon>
-                  <Category></Category>
-                </ListItemIcon>
-              </NavLink>
-              <NavLink exact to="/Ingredients" className={classes.link}>
-                <ListItemText primary={"Ingredients"} />
-              </NavLink>
-            </ListItem>
-            <ListItem button key={"Process"}>
-              <NavLink exact to="/Process" className={classes.link}>
-                <ListItemIcon>
-                  <Memory></Memory>
-                </ListItemIcon>
-              </NavLink>
-              <NavLink exact to="/Process" className={classes.link}>
-                <ListItemText primary={"Process"} />
-              </NavLink>
-            </ListItem>
         </List>
+        {User ? renderList() : null}
       </Drawer>
     </Box>
   );

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Cookies from 'js-cookie';
+import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +31,15 @@ const Form = ({ handleClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(email, password);
+    Cookies.set('user', true)
+    http.post(`api/user/login`,
+      {
+          Email: email,
+          Password: password,
+      })
+      .then(response => {
+        Cookies.set('user', response.data.data)
+      }).catch()
     handleClose();
   };
 

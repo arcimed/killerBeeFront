@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {Dialog, CardActions, CardContent, Button, Typography, Card} from '@mui/material';
+import http from '../../service/httpService';
 
 import FreezbeForm from "../Forms/FreezbeForm";
 
@@ -23,7 +24,10 @@ export default function Cards(props) {
     };
 
     const handleDelete = () => {
-      console.log('delete')
+      http.put(`api/freezbe/delete/` + props.Freezbe.id)
+            .then((response) => {
+              console.log('delete')
+            }).catch()
     };
   return (
     <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe.id}>

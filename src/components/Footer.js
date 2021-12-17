@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
   imgBox: {
     position:'inherit',
     marginLeft:'30%',
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      marginLeft:'20%',
+      marginRight:'30%',
+    },
     
   },
   img: {

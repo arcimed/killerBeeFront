@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {Dialog, CardActions, CardContent, Button, Typography, Card} from '@mui/material';
+import http from '../../service/httpService';
 
 import IngredientForm from "../Forms/IngredientForm";
 
@@ -23,7 +24,10 @@ export default function Cards(props) {
     };
 
     const handleDelete = () => {
-      console.log('delete')
+      http.put(`api/ingredient/delete/` + props.Ingredient.id)
+            .then((response) => {
+              console.log('delete')
+            }).catch()
     };
   return (
     <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Ingredient.id}>

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
+import http from '../service/httpService';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     addButton:{
         marginTop:'3%',
         marginLeft: '47%',
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: '35%',
+          },
     },
     search: {
         marginTop:'3%',
@@ -59,12 +63,20 @@ const Ingredients = () => {
       setOpenAdd(false);
     };
     useEffect(() => {
+        http.get(`api/ingredient/`)
+            .then((response) => {
+                setData(response.data.data)
+            }).catch()
+      
+    }, [])
+
+    useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
             const filter = IngredientsData.filter(ingredient => {
                 return ingredient.Nom.toLowerCase().includes(query.toLowerCase())
                })
           setData(filter)
-          if (query == '') {
+          if (query === '') {
             setData(IngredientsData)
           }
       }, [query])
