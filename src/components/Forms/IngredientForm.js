@@ -27,6 +27,7 @@ const IngredientForm = ({ handleClose, item }) => {
   // create state variables for each input
     const [Nom, setNom] = useState(item.Ingredient ? item.Ingredient.Nom :'');
     const [Description, setDescription] = useState(item.Ingredient ? item.Ingredient.Desc : '');
+    const [Grammage, setGrammage] = useState(item.Ingredient ? item.Ingredient.Grammage : '');
 
 
   const handleSubmit = e => {
@@ -34,8 +35,9 @@ const IngredientForm = ({ handleClose, item }) => {
     if(item.Ingredient) {
     http.post(`api/ingredient/edit` + item.Ingredient.id,
       {
-        Nom: Nom,
-        Description: Description,
+        nom: Nom,
+        description: Description,
+        gramme: Grammage
       })
       .then(response => {
         console.log("ingredient ajouté");
@@ -44,8 +46,9 @@ const IngredientForm = ({ handleClose, item }) => {
     } else {
       http.post(`api/ingredient/add`,
       {
-        Nom: Nom,
-        Description: Description,
+        nom: Nom,
+        description: Description,
+        gramme: Grammage
       })
       .then(response => {
         console.log("ingredient ajouté");
@@ -71,6 +74,12 @@ const IngredientForm = ({ handleClose, item }) => {
         required
         value={Description}
         onChange={e => setDescription(e.target.value)}
+      />
+      <TextField
+        label="Grammage"
+        type="number"
+        value={Grammage}
+        onChange={e => setGrammage(e.target.value)}
       />
       <div>
         <Button variant="contained" onClick={handleClose}>

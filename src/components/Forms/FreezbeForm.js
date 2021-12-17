@@ -47,12 +47,12 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
     if(item.Freezbe) {
       http.put(`api/freezbe/edit` + item.Freezbe.id,
       {
-        Nom: Nom,
-        Description: Description,
+        nom: Nom,
+        description: Description,
         pUHT : pUHT,
-        Gamme : Gamme,
-        Ingredients : Ingredients,
-        Grammage : Grammage,
+        gamme : Gamme,
+        ingredients : Ingredients,
+        gramme : Grammage,
       })
       .then(response => {
         console.log("freezbe ajouté");
@@ -61,12 +61,12 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
     } else {
       http.post(`api/freezbe/add`,
       {
-        Nom: Nom,
-        Description: Description,
+        nom: Nom,
+        description: Description,
         pUHT : pUHT,
-        Gamme : Gamme,
-        Ingredients : Ingredients,
-        Grammage : Grammage,
+        gamme : Gamme,
+        ingredients : Ingredients,
+        gramme : Grammage,
       })
       .then(response => {
         console.log("freezbe ajouté");
