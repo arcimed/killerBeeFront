@@ -6,9 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CookiesProvider>
       <App />
-    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
