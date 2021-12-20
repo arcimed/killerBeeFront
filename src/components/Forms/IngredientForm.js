@@ -25,9 +25,9 @@ const useStyles = makeStyles(theme => ({
 const IngredientForm = ({ handleClose, item }) => {
   const classes = useStyles();
   // create state variables for each input
-    const [Nom, setNom] = useState(item.Ingredient ? item.Ingredient.Nom :'');
-    const [Description, setDescription] = useState(item.Ingredient ? item.Ingredient.Desc : '');
-    const [Grammage, setGrammage] = useState(item.Ingredient ? item.Ingredient.Grammage : '');
+    const [Nom, setNom] = useState(item.Ingredient ? item.Ingredient.nom :'');
+    const [Description, setDescription] = useState(item.Ingredient ? item.Ingredient.description : '');
+    const [Grammage, setGrammage] = useState(item.Ingredient ? item.Ingredient.gramme : '');
 
 
   const handleSubmit = e => {

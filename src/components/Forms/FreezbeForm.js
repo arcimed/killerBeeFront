@@ -34,18 +34,18 @@ const useStyles = makeStyles(theme => ({
 const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   const classes = useStyles();
   // create state variables for each input
-  const [Nom, setNom] = useState(item.Freezbe ? item.Freezbe.Nom :'');
-  const [Description, setDescription] = useState(item.Freezbe ? item.Freezbe.Desc :'');
+  const [Nom, setNom] = useState(item.Freezbe ? item.Freezbe.nom :'');
+  const [Description, setDescription] = useState(item.Freezbe ? item.Freezbe.description :'');
   const [pUHT, setpUHT] = useState(item.Freezbe ? item.Freezbe.pUHT: '');
-  const [Gamme, setGamme] = useState(item.Freezbe ? item.Freezbe.Gamme: '');
-  const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.Ingredient : []);
-  const [Grammage, setGrammage] = useState(item.Freezbe ? item.Freezbe.Grammage : '');
+  const [Gamme, setGamme] = useState(item.Freezbe ? item.Freezbe.gamme: '');
+  const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.ingredient : []);
+  const [Grammage, setGrammage] = useState(item.Freezbe ? item.Freezbe.gramme : '');
   const [Data] = useState(ingredientsData ? ingredientsData : []);
   
   const handleSubmit = e => {
     e.preventDefault();
     if(item.Freezbe) {
-      http.put(`api/freezbe/edit` + item.Freezbe.id,
+      http.put(`api/frisbee/` + item.Freezbe.id,
       {
         nom: Nom,
         description: Description,
@@ -55,11 +55,11 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
         gramme : Grammage,
       })
       .then(response => {
-        console.log("freezbe ajouté");
+        console.log("freezbe modifier");
         console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
       }).catch()
     } else {
-      http.post(`api/freezbe/add`,
+      http.post(`api/frisbee/`,
       {
         nom: Nom,
         description: Description,
@@ -126,8 +126,8 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
           input={<OutlinedInput label="Ingredient" />}
         >
           {Data.map((option) => (
-          <MenuItem key={option.Nom} value={option.Nom}>
-            {option.Nom}
+          <MenuItem key={option.nom} value={option.nom}>
+            {option.nom}
           </MenuItem>
         ))}
       </Select>

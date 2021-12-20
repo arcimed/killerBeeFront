@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import Dialog from '@mui/material/Dialog';
 import EtapeForm from './EtapeForm';
 import Cookies from 'js-cookie';
+import Box from '@mui/material/Box';
 import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     width: 300,
   }
 }));
-
+  let validationTest = []
 const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const classes = useStyles();
   // create state variables for each input
@@ -41,12 +42,14 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const [Description, setDescription] = useState(item.Process ? item.Process.description :'');
   const [Modele, setModele] = useState(item.Process ? item.Process.modele : []);
   const [Data] = useState(freezbeData ? freezbeData : []);
-  const [ListEtape, setListEtape] = useState( item.Process ? item.Process.validationTest : []);
   const [OpenAdd, setOpenAdd] = useState(false);
   const [OpenEdit, setOpenEdit] = useState(false);
-  var validationTest = ListEtape
-
-
+  const [List] = useState( item.Process ? item.Process.validationTest : null);
+  useEffect(() => {
+    if(validationTest.length === 1) {
+      validationTest.push(List)
+    }
+  },[List])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -88,34 +91,34 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
     );
   };
   const handleOpenEdit = () => {
+    console.log(validationTest)
     setOpenEdit(true);
   };
   const handleCloseEdit = (editEtape) => {
-    var index = validationTest.indexOf(editEtape);
-    if (index > -1) {
-      validationTest.splice(index, 1);
+    if(Cookies.get('Etape')) {
+      var index = validationTest.indexOf(editEtape);
+      if (index > -1) {
+        validationTest.splice(index, 1);
+      }
+      validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
+      Cookies.remove('Etape')
+      Cookies.remove('Description')
     }
-    console.log(Cookies.get('etape'))
-    validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
-    Cookies.remove('Etape')
-    Cookies.remove('Description')
-    console.log(validationTest)
     setOpenEdit(false);
   };
   const handleOpenAdd = () => {
+    console.log(validationTest)
     setOpenAdd(true);
   };
   const handleCloseAdd = () => {
-    console.log(Cookies.get('etape'))
-    validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
-    Cookies.remove('Etape')
-    Cookies.remove('Description')
-    console.log(validationTest)
+    
+    if(Cookies.get('Etape')) {
+      validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
+      Cookies.remove('Etape')
+      Cookies.remove('Description')
+  }
     setOpenAdd(false);
   };
-  useEffect(() => {
-    setListEtape(validationTest)
-  }, [validationTest])
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
@@ -143,20 +146,20 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
           input={<OutlinedInput label="Modele" />}
         >
           {Data.map((option) => (
-          <MenuItem key={option.Nom} value={option.Nom}>
-            {option.Nom}
+          <MenuItem key={option.nom} value={option.nom}>
+            {option.nom}
           </MenuItem>
         ))}
       </Select>
-      {ListEtape.map((option) => (
-        <>
-          <Button variant="contained" color="primary" key={option.etape} onClick={handleOpenEdit}>
+      {validationTest.map((option) => (
+        <Box key={option.etape}>
+          <Button variant="contained" color="primary" onClick={handleOpenEdit}>
             {option.etape}
           </Button>
           <Dialog open={OpenEdit} onClose={handleCloseEdit(option.etape)}>
             <EtapeForm handleClose={handleCloseEdit} item={option} />
           </Dialog>
-        </>
+        </Box>
         ))}
       <Button variant="contained" color="primary" onClick={handleOpenAdd}>
           Ajouter une étape

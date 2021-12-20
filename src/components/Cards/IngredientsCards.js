@@ -24,7 +24,7 @@ export default function Cards(props) {
     };
 
     const handleDelete = () => {
-      http.put(`api/ingredient/delete/` + props.Ingredient.id)
+      http.delete(`api/ingredient/delete/` + props.Ingredient.id)
             .then((response) => {
               console.log('delete')
             }).catch()
@@ -33,10 +33,10 @@ export default function Cards(props) {
     <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Ingredient.id}>
       <CardContent>
         <Typography variant="h5" component="div">
-            {props.Ingredient.Nom}
+            {props.Ingredient.nom}
         </Typography>
         <Typography  color="text.secondary" gutterBottom>
-            {props.Ingredient.Desc}
+            {props.Ingredient.description}
         </Typography>
       </CardContent>
       <CardActions>

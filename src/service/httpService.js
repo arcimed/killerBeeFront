@@ -1,17 +1,15 @@
-import axios from 'axios';    
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-// Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
-    // config.headers.Authorization = `Bearer ${'BFJFDLSJFLKJLKJLKGJSL'}`;
+    config.headers.Authorization = `Bearer ${Cookies.get('user')}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
-    config.baseURL = 'https://example.io/api/';
+    config.baseURL = 'https://localhost:8080/';
 
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

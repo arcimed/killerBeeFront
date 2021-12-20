@@ -42,13 +42,13 @@ const Ingredients = () => {
     const IngredientsData = [
         {
           id: 1,
-          Nom: 'Fer',
-          Desc: ['Du fer'],
+          nom: 'Fer',
+          description: 'Du fer',
         },
         {
           id: 2,
-          Nom: 'Plastique',
-          Desc: ['Du plastique'],
+          nom: 'Plastique',
+          description: 'Du plastique',
         },
     ];
     const classes = useStyles();
@@ -73,7 +73,7 @@ const Ingredients = () => {
     useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
             const filter = IngredientsData.filter(ingredient => {
-                return ingredient.Nom.toLowerCase().includes(query.toLowerCase())
+                return ingredient.nom.toLowerCase().includes(query.toLowerCase())
                })
           setData(filter)
           if (query === '') {

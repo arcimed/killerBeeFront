@@ -31,11 +31,10 @@ const Form = ({ handleClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    Cookies.set('user', true)
-    http.post(`api/user/login`,
+    http.post(`api/auth/`,
       {
-          Email: email,
-          Password: password,
+          email: email,
+          password: password,
       })
       .then(response => {
         Cookies.set('user', response.data.data)

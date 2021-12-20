@@ -42,37 +42,37 @@ const Process = () => {
     const FreezbeData = [
         {
           id: 1,
-          Nom: 'Freezbe1',
-          Desc: ['Du fer'],
+          nom: 'Freezbe1',
+          description: 'Du fer',
           pUHT: 'pUHT',
-          Gamme: 'Gamme 1',
-          Ingredient: [],
-          Grammage: 10,
+          gamme: 'Gamme 1',
+          ingredient: [],
+          gramme: 10,
         },
         {
-          id: 2,
-          Nom: 'Freezbe2',
-          Desc: ['Du plastique'],
-          pUHT: 'pUHT',
-          Gamme: 'Gamme 2',
-          Ingredient: [],
-          Grammage: 10,
+            id: 2,
+            nom: 'Freezbe2',
+            description: 'Du fer',
+            pUHT: 'pUHT',
+            gamme: 'Gamme 1',
+            ingredient: [],
+            gramme: 10,
         },
     ];
     const ProcessData = [
         {
           id: 1,
-          Nom: 'Process1',
-          Desc: ['Du fer'],
-          Modele: [],
-          Etape: 'Etape 1',
+          nom: 'Process1',
+          description: ['Du fer'],
+          modele: [],
+          validationTest: [{'etape': 'test', 'description': 'test'}]
         },
         {
           id: 2,
-          Nom: 'Process2',
-          Desc: ['Du plastique'],
-          Modele: [],
-          Etape: 'Etape 2',
+          nom: 'Process2',
+          description: ['Du plastique'],
+          modele: [],
+          validationTest: 'Etape 2',
         },
     ];
     const classes = useStyles();
@@ -96,7 +96,7 @@ const Process = () => {
     useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
             const filter = ProcessData.filter(process => {
-                return process.Nom.toLowerCase().includes(query.toLowerCase())
+                return process.nom.toLowerCase().includes(query.toLowerCase())
                })
           setData(filter)
           if (query === '') {
