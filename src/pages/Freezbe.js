@@ -88,7 +88,7 @@ const Freezbe = () => {
     useEffect(() => {
       http.get(`api/frisbee/`)
             .then((response) => {
-                setData(response.data.data)
+                setData(response.data)
             }).catch()
       
     }, [])

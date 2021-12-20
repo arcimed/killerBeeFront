@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 
 axios.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = `Bearer ${Cookies.get('user')}`;
+    config.headers.Authorization = `${Cookies.get('user')}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
-    config.baseURL = 'https://localhost:8080/';
+    config.baseURL = 'http://localhost:3000/';
 
     return config;
   },

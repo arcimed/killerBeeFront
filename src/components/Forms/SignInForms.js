@@ -37,7 +37,8 @@ const Form = ({ handleClose }) => {
           password: password,
       })
       .then(response => {
-        Cookies.set('user', response.data.data)
+        console.log(response.data.token)
+        Cookies.set('user', response.data.token)
       }).catch()
     handleClose();
   };
