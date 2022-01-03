@@ -36,9 +36,7 @@ const ProcessForm = ({ handleClose, item }) => {
 
   const handleSubmit = e => {
         e.preventDefault();
-        Cookies.set('Etape', Etape)
-        Cookies.set('Description', Description)
-        handleClose();
+        handleClose(Etape, Description);
     };
 
   return (

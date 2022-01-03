@@ -40,13 +40,13 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   // create state variables for each input
   const [Nom, setNom] = useState(item.Process ? item.Process.nom :'');
   const [Description, setDescription] = useState(item.Process ? item.Process.description :'');
-  const [Modele, setModele] = useState(item.Process ? item.Process.modele : []);
+  const [Modele, setModele] = useState(item.Process ? item.Process.frisbee : []);
   const [Data] = useState(freezbeData ? freezbeData : []);
   const [OpenAdd, setOpenAdd] = useState(false);
   const [OpenEdit, setOpenEdit] = useState(false);
   const [List] = useState( item.Process ? item.Process.validationTest : null);
   useEffect(() => {
-    if(validationTest.length === 1) {
+    if(validationTest.length === 0 && item.Process) {
       validationTest.push(List)
     }
   },[List])
@@ -54,11 +54,11 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if(item.Process) {
-      http.post(`api/processFreezbe/edit` + item.Process.id,
+      http.put(`api/fabricationProcess/edit` + item.Process.id,
       {
         nom: Nom,
         description: Description,
-        frisbee: Modele,
+        frisbee: Modele._id,
         validationTest: validationTest,
       })
       .then(response => {
@@ -66,11 +66,11 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
         console.log(Nom, Description);
       }).catch()       
     } else {
-      http.post(`api/processFreezbe/add`,
+      http.post(`api/fabricationProcess/`,
       {
         nom: Nom,
         description: Description,
-        frisbee: Modele,
+        frisbee: Modele._id,
         validationTest: validationTest,
       })
       .then(response => {
@@ -81,28 +81,17 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
       handleClose();
     };
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setModele(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
   const handleOpenEdit = () => {
     console.log(validationTest)
     setOpenEdit(true);
   };
-  const handleCloseEdit = (editEtape) => {
-    if(Cookies.get('Etape')) {
+  const handleCloseEdit = (editEtape, etape, desc) => {
+    if(etape && desc) {
       var index = validationTest.indexOf(editEtape);
       if (index > -1) {
         validationTest.splice(index, 1);
       }
-      validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
-      Cookies.remove('Etape')
-      Cookies.remove('Description')
+      validationTest.push({'etape': etape, 'description': desc})
     }
     setOpenEdit(false);
   };
@@ -110,15 +99,27 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
     console.log(validationTest)
     setOpenAdd(true);
   };
-  const handleCloseAdd = () => {
-    
-    if(Cookies.get('Etape')) {
-      validationTest.push({'etape': Cookies.get('Etape'), 'description': Cookies.get('Description')})
-      Cookies.remove('Etape')
-      Cookies.remove('Description')
+  const handleCloseAdd = (etape, desc) => {
+    console.log(etape)
+    console.log(desc)
+    if(etape && desc) {
+      validationTest.push({'etape': etape, 'description': desc})
   }
+    console.log(validationTest)
     setOpenAdd(false);
   };
+  const renderEdit = (option) => {
+    return (
+    <Box key={option._id}>
+      <Button variant="contained" color="primary" onClick={handleOpenEdit}>
+        {option.description}
+      </Button>
+      <Dialog open={OpenEdit} onClose={handleCloseEdit(option._id)}>
+        <EtapeForm handleClose={handleCloseEdit} item={option} />
+      </Dialog>
+    </Box>
+    )
+  }
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
@@ -139,28 +140,19 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
       <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
-          multiple
-          value={Modele}
-          onChange={handleChange}
+          value={Modele._id}
           className={classes.formCase}
           input={<OutlinedInput label="Modele" />}
         >
           {Data.map((option) => (
-          <MenuItem key={option.nom} value={option.nom}>
+          <MenuItem key={option._id} value={option._id}>
             {option.nom}
           </MenuItem>
         ))}
       </Select>
-      {validationTest.map((option) => (
-        <Box key={option.etape}>
-          <Button variant="contained" color="primary" onClick={handleOpenEdit}>
-            {option.etape}
-          </Button>
-          <Dialog open={OpenEdit} onClose={handleCloseEdit(option.etape)}>
-            <EtapeForm handleClose={handleCloseEdit} item={option} />
-          </Dialog>
-        </Box>
-        ))}
+      {validationTest.length != 0 ? validationTest.map((option) => (
+          renderEdit(option)
+        )): null}
       <Button variant="contained" color="primary" onClick={handleOpenAdd}>
           Ajouter une étape
       </Button>

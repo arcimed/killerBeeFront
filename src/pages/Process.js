@@ -39,46 +39,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Process = () => {
-    const FreezbeData = [
-        {
-          id: 1,
-          nom: 'Freezbe1',
-          description: 'Du fer',
-          pUHT: 'pUHT',
-          gamme: 'Gamme 1',
-          ingredient: [],
-          gramme: 10,
-        },
-        {
-            id: 2,
-            nom: 'Freezbe2',
-            description: 'Du fer',
-            pUHT: 'pUHT',
-            gamme: 'Gamme 1',
-            ingredient: [],
-            gramme: 10,
-        },
-    ];
-    const ProcessData = [
-        {
-          id: 1,
-          nom: 'Process1',
-          description: ['Du fer'],
-          modele: [],
-          validationTest: [{'etape': 'test', 'description': 'test'}]
-        },
-        {
-          id: 2,
-          nom: 'Process2',
-          description: ['Du plastique'],
-          modele: [],
-          validationTest: 'Etape 2',
-        },
-    ];
     const classes = useStyles();
     const [openAdd, setOpenAdd] = useState(false);
     const [query, setQuery] = useState('');
-    const [Data, setData] = useState(ProcessData);
+    const [Data, setData] = useState([]);
+    const [FreezbeData, setFreezbeData] = useState([]);
     const handleOpenAdd = () => {
       setOpenAdd(true);
     };
@@ -87,20 +52,28 @@ const Process = () => {
       setOpenAdd(false);
     };
     useEffect(() => {
-        http.get(`api/freezbeProcess/`)
+        http.get(`api/fabricationProcess/`)
             .then((response) => {
-                setData(response.data.data)
+                setData(response.data)
             }).catch()
+        
+        http.get(`api/frisbee/`)
+        .then((response) => {
+            setFreezbeData(response.data)
+        }).catch()
       
     }, [])
     useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
-            const filter = ProcessData.filter(process => {
+            const filter = Data.filter(process => {
                 return process.nom.toLowerCase().includes(query.toLowerCase())
                })
           setData(filter)
           if (query === '') {
-            setData(ProcessData)
+            http.get(`api/fabricationProcess/`)
+            .then((response) => {
+                setData(response.data)
+            }).catch()
           }
       }, [query])
     return (

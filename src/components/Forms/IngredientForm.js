@@ -33,30 +33,25 @@ const IngredientForm = ({ handleClose, item }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if(item.Ingredient) {
-    http.post(`api/ingredient/edit` + item.Ingredient.id,
+    http.put(`api/ingredient/` + item.Ingredient._id,
       {
         nom: Nom,
         description: Description,
         gramme: Grammage
       })
       .then(response => {
-        console.log("ingredient ajouté");
-        console.log(Nom, Description);
-      }).catch()      
+      }).catch()     
     } else {
-      http.post(`api/ingredient/add`,
+      http.post(`api/ingredient/`,
       {
         nom: Nom,
         description: Description,
         gramme: Grammage
       })
       .then(response => {
-        console.log("ingredient ajouté");
-        console.log(Nom, Description);
       }).catch()  
     }
-    console.log(Nom, Description);
-    handleClose();
+    handleClose()
   };
 
   return (

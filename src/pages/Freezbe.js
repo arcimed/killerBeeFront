@@ -40,67 +40,51 @@ const useStyles = makeStyles(theme => ({
 
 const Freezbe = () => {
 
-    const IngredientsData = [
-        {
-          id: 1,
-          nom: 'Fer',
-          description: ['Du fer'],
-        },
-        {
-          id: 2,
-          nom: 'Plastique',
-          description: ['Du plastique'],
-        },
-      ];
-    const FreezbeData = [
-        {
-          id: 1,
-          nom: 'Freezbe1',
-          description: 'Du fer',
-          pUHT: 'pUHT',
-          gamme: 'Gamme 1',
-          ingredient: ['Fer'],
-          gramme: 10,
-        },
-        {
-            id: 2,
-            nom: 'Freezbe1',
-            description: 'Du fer',
-            pUHT: 'pUHT',
-            gamme: 'Gamme 1',
-            ingredient: ['Fer'],
-            gramme: 10,
-        },
-    ];
+    const [IngredientsData, setIngredientsData] = useState([]);
     const classes = useStyles();
     const [openAdd, setOpenAdd] = useState(false);
     const [query, setQuery] = useState('');
-    const [Data, setData] = useState(FreezbeData);
+    const [Data, setData] = useState([]);
    
     const handleOpenAdd = () => {
       setOpenAdd(true);
     };
   
-    const handleCloseAdd = () => {
+    const handleCloseAdd = (response) => {
+        if(response){
+            http.get(`api/frisbee/`)
+            .then((response) => {
+                setData(response.data)
+            }).catch()
+        }
       setOpenAdd(false);
     };
 
     useEffect(() => {
-      http.get(`api/frisbee/`)
+        http.get(`api/frisbee/`)
             .then((response) => {
                 setData(response.data)
             }).catch()
-      
-    }, [])
+        http.get(`api/ingredient/`)
+        .then((response) => {
+            setIngredientsData(response.data)
+        }).catch()
 
+    }, [])
+    var tempData = Data
     useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
-            const filter = FreezbeData.filter(freezbe => {
-                return freezbe.nom.toLowerCase().includes(query.toLowerCase())
-               })
+            const filter = tempData.filter(freezbe => {
+                if (query !== '') {
+                    return freezbe.nom.toLowerCase().includes(query.toLowerCase())
+                }
+            })
           setData(filter)
           if (query === '') {
-            setData(FreezbeData)
+            http.get(`api/frisbee/`)
+            .then((response) => {
+                setData(response.data)
+            }).catch()
           }
       }, [query])
 

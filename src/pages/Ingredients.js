@@ -39,47 +39,46 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Ingredients = () => {
-    const IngredientsData = [
-        {
-          id: 1,
-          nom: 'Fer',
-          description: 'Du fer',
-        },
-        {
-          id: 2,
-          nom: 'Plastique',
-          description: 'Du plastique',
-        },
-    ];
     const classes = useStyles();
     const [openAdd, setOpenAdd] = useState(false);
     const [query, setQuery] = useState('');
-    const [Data, setData] = useState(IngredientsData);
+    const [Data, setData] = useState([]);
     const handleOpenAdd = () => {
       setOpenAdd(true);
     };
   
     const handleCloseAdd = () => {
-      setOpenAdd(false);
+        http.get(`api/ingredient/`)
+        .then((response) => {
+            setData(response.data)
+        }).catch()
+        setOpenAdd(false);
     };
     useEffect(() => {
         http.get(`api/ingredient/`)
             .then((response) => {
-                setData(response.data.data)
+                setData(response.data)
             }).catch()
       
     }, [])
 
+    var tempData = Data
     useEffect(() => {
         //Change initialvalues only if article has been change after scrapping
-            const filter = IngredientsData.filter(ingredient => {
-                return ingredient.nom.toLowerCase().includes(query.toLowerCase())
-               })
+            const filter = tempData.filter(ingredient => {
+                if (query !== '') {
+                    return ingredient.nom.toLowerCase().includes(query.toLowerCase())
+                }
+            })
           setData(filter)
           if (query === '') {
-            setData(IngredientsData)
+            http.get(`api/ingredient/`)
+            .then((response) => {
+                setData(response.data)
+            }).catch()
           }
       }, [query])
+
     return (
         <Box>
             <h1  className={classes.title} >Ingrédients</h1>

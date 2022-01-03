@@ -24,13 +24,13 @@ export default function ProcessCards(props) {
     };
 
     const handleDelete = () => {
-      http.delete(`api/processFreezbe/delete/` + props.Process.id)
+      http.delete(`api/fabricationProcess/` + props.Process._id)
             .then((response) => {
               console.log('delete')
             }).catch()
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Process.id}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Process._id}>
       <CardContent>
         <Typography variant="h5"  component="div">
             {props.Process.nom}
@@ -39,10 +39,13 @@ export default function ProcessCards(props) {
             {props.Process.description}
         </Typography>
         <Typography component="div">
-            Freezbe : {props.Process.modele}
+            Freezbe : {props.Process.frisbee.nom}
         </Typography>
         <Typography component="div">
-            Etape : {props.Process.etape}
+            Etape :
+            {props.Process.validationTest.map((option) => (
+                  option.description +', '
+              ))}
         </Typography>
       </CardContent>
       <CardActions>

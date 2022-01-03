@@ -24,13 +24,13 @@ export default function Cards(props) {
     };
 
     const handleDelete = () => {
-      http.delete(`api/frisbee/` + props.Freezbe.id)
+      http.delete(`api/frisbee/` + props.Freezbe._id)
             .then((response) => {
               console.log('delete')
             }).catch()
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe.id}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe._id}>
       <CardContent>
         <Typography variant="h5" component="div" >
             {props.Freezbe.nom}
@@ -39,16 +39,19 @@ export default function Cards(props) {
             {props.Freezbe.description}
         </Typography>
         <Typography  component="div">
-            pUHT : {props.Freezbe.pUHT}
+            pUHT : {props.Freezbe.puht}
         </Typography>
         <Typography  component="div">
             Gamme : {props.Freezbe.gamme}
         </Typography>
         <Typography  component="div">
-            Ingredients : {props.Freezbe.ingredient}
+            Ingredients : 
+              {props.Freezbe.ingredients.map((option) => (
+                  option.nom +', '
+              ))}
         </Typography>
         <Typography  component="div">
-            {props.Freezbe.Gramme} g
+            {props.Freezbe.gramme} g
         </Typography>
       </CardContent>
       <CardActions>

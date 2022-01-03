@@ -38,43 +38,39 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   const [Description, setDescription] = useState(item.Freezbe ? item.Freezbe.description :'');
   const [pUHT, setpUHT] = useState(item.Freezbe ? item.Freezbe.pUHT: '');
   const [Gamme, setGamme] = useState(item.Freezbe ? item.Freezbe.gamme: '');
-  const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.ingredient : []);
+  const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.ingredients : []);
   const [Grammage, setGrammage] = useState(item.Freezbe ? item.Freezbe.gramme : '');
   const [Data] = useState(ingredientsData ? ingredientsData : []);
   
   const handleSubmit = e => {
     e.preventDefault();
     if(item.Freezbe) {
-      http.put(`api/frisbee/` + item.Freezbe.id,
+      http.put(`api/frisbee/` + item.Freezbe._id,
       {
         nom: Nom,
         description: Description,
-        pUHT : pUHT,
+        puht : pUHT,
         gamme : Gamme,
         ingredients : Ingredients,
         gramme : Grammage,
       })
       .then(response => {
-        console.log("freezbe modifier");
-        console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
-      }).catch()
+        handleClose(true);
+      }).catch( handleClose(false) )
     } else {
       http.post(`api/frisbee/`,
       {
         nom: Nom,
         description: Description,
-        pUHT : pUHT,
+        puht : pUHT,
         gamme : Gamme,
         ingredients : Ingredients,
         gramme : Grammage,
       })
       .then(response => {
-        console.log("freezbe ajouté");
-        console.log(Nom, Description, pUHT, Gamme, Ingredients, Grammage);
-      }).catch()
+        handleClose(true);
+      }).catch( handleClose(false) )
     }
-   
-    handleClose();
   };
 
   const handleChange = (event) => {
@@ -105,7 +101,7 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
       <TextField
         label="pUHT"
         variant="filled"
-        required
+        type="number"
         value={pUHT}
         onChange={e => setpUHT(e.target.value)}
       />
@@ -126,13 +122,14 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
           input={<OutlinedInput label="Ingredient" />}
         >
           {Data.map((option) => (
-          <MenuItem key={option.nom} value={option.nom}>
+          <MenuItem key={option._id} value={option._id}>
             {option.nom}
           </MenuItem>
         ))}
       </Select>
       <TextField
         label="Grammage"
+        variant="filled"
         type="number"
         value={Grammage}
         onChange={e => setGrammage(e.target.value)}
