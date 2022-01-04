@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Cookies from 'js-cookie';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,11 +27,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProcessForm = ({ handleClose, item }) => {
+const ProcessForm = ({ handleClose }) => {
   const classes = useStyles();
   // create state variables for each input
-  const [Etape, setEtape] = useState(item.Process ? item.etape :'');
-  const [Description, setDescription] = useState(item.Process ? item.desc :'');
+  const [Etape, setEtape] = useState('');
+  const [Description, setDescription] = useState('');
 
   const handleSubmit = e => {
         e.preventDefault();

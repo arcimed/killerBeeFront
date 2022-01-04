@@ -69,6 +69,7 @@ const Ingredients = () => {
                 if (query !== '') {
                     return ingredient.nom.toLowerCase().includes(query.toLowerCase())
                 }
+                return null
             })
           setData(filter)
           if (query === '') {

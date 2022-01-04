@@ -78,6 +78,7 @@ const Freezbe = () => {
                 if (query !== '') {
                     return freezbe.nom.toLowerCase().includes(query.toLowerCase())
                 }
+                return null
             })
           setData(filter)
           if (query === '') {

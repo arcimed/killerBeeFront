@@ -30,7 +30,7 @@ export default function Cards(props) {
             }).catch()
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe._id}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Freezbe.nom}>
       <CardContent>
         <Typography variant="h5" component="div" >
             {props.Freezbe.nom}

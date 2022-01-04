@@ -30,7 +30,7 @@ export default function ProcessCards(props) {
             }).catch()
     };
   return (
-    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Process._id}>
+    <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Process.nom}>
       <CardContent>
         <Typography variant="h5"  component="div">
             {props.Process.nom}
