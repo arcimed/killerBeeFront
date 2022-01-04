@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Dialog from '@mui/material/Dialog';
 import EtapeForm from './EtapeForm';
-import Box from '@mui/material/Box';
 import http from '../../service/httpService';
 
 const useStyles = makeStyles(theme => ({
@@ -29,9 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
   formCase: {
     width: 300,
-  }
+  },
 }));
-  let validationTest = []
+let validationTest = []
 const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const classes = useStyles();
   // create state variables for each input
@@ -40,19 +39,18 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const [Modele, setModele] = useState(item.Process ? item.Process.frisbee._id : []);
   const [Data] = useState(freezbeData ? freezbeData : []);
   const [OpenAdd, setOpenAdd] = useState(false);
-  const [List, setList] = useState( item.Process ? item.Process.validationTest : null);
+  const [List, setList] = useState( item.Process ? item.Process.validationTest : []);
   useEffect(() => {
-    console.log(List)
+    validationTest = []
     if(validationTest.length === 0 && item.Process) {
-      validationTest.push(List)
-      console.log(validationTest)
+      List.map((option) => (
+        validationTest.push(option)
+      ))
     }
-  },[List])
+  },[item])
 
   useEffect(() => {
-    console.log(validationTest)
     setList(validationTest)
-    console.log(List)
   },[validationTest])
 
   const handleSubmit = e => {
@@ -67,7 +65,6 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
       })
       .then(response => {
         console.log("processFreezbe ajouté");
-        console.log(Nom, Description);
       }).catch()       
     } else {
       http.post(`api/fabricationProcess/`,
@@ -79,18 +76,17 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
       })
       .then(response => {
         console.log("processFreezbe ajouté");
-        console.log(Nom, Description);
       }).catch() 
     }
       handleClose();
+      validationTest = []
     };
+    
   const handleDeleteEtape = (editEtape) => {
-    console.log(validationTest)
       var index = validationTest.indexOf(editEtape);
       if (index > -1) {
         validationTest.splice(index, 1);
       }
-      console.log(validationTest)
   };
   const handleOpenAdd = () => {
     setOpenAdd(true);
@@ -101,15 +97,7 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   }
     setOpenAdd(false);
   };
-  const renderEdit = (option) => {
-    return (
-    <Box key={option.description}>
-      <Button variant="contained" color="primary" onClick={handleDeleteEtape(option)}>
-        {option.description}
-      </Button>
-    </Box>
-    )
-  }
+
   const handleChange = (event) => {
     setModele(event.target.value);
   };
@@ -144,8 +132,10 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
           </MenuItem>
         ))}
         </TextField>
-      {validationTest.length !== 0 ? List.map((option) => (
-          renderEdit(option)
+        {List.length > 0 ? List.map((option) => (
+            <Button key={option.description} variant="contained" onClick={() =>handleDeleteEtape(option)}>
+              {option.etape}
+            </Button>
         )): null}
       <div>
         <Button variant="contained" color="primary" onClick={handleOpenAdd}>

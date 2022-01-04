@@ -37,7 +37,6 @@ const Form = ({ handleClose }) => {
           password: password,
       })
       .then(response => {
-        console.log(response.data.token)
         Cookies.set('user', response.data.token)
       }).catch()
     handleClose();
