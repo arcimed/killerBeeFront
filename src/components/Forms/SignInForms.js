@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Form = ({ handleClose }) => {
+  var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
   const classes = useStyles();
   // create state variables for each input
   const [email, setEmail] = useState('');
@@ -64,9 +65,11 @@ const Form = ({ handleClose }) => {
         <Button variant="contained" onClick={handleClose}>
           Cancel
         </Button>
+        {expressionReguliere.test(email) ? (
         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
             Login
         </Button>
+        ) : null}
       </div>
     </form>
   );
