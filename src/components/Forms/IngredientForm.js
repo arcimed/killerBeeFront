@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import http from '../../service/httpService';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,6 +29,16 @@ const IngredientForm = ({ handleClose, item }) => {
     const [Nom, setNom] = useState(item.Ingredient ? item.Ingredient.nom :'');
     const [Description, setDescription] = useState(item.Ingredient ? item.Ingredient.description : '');
     const [Grammage, setGrammage] = useState(item.Ingredient ? item.Ingredient.gramme : '');
+    const notifySuccess = () => {
+      toast.success("Action réalisé !", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }
+    const notifyError = () => {
+      toast.error("Action non réalisé !", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }
 
 
   const handleSubmit = e => {
@@ -40,7 +51,8 @@ const IngredientForm = ({ handleClose, item }) => {
         gramme: Grammage
       })
       .then(response => {
-      }).catch()     
+        notifySuccess()
+      }).catch(error => {notifyError()})     
     } else {
       http.post(`api/ingredient/`,
       {
@@ -49,7 +61,8 @@ const IngredientForm = ({ handleClose, item }) => {
         gramme: Grammage
       })
       .then(response => {
-      }).catch()  
+        notifySuccess()
+      }).catch(error => {notifyError()})  
     }
     handleClose()
   };

@@ -75,6 +75,7 @@ const Process = () => {
                 setData(response.data)
             }).catch()
           }
+        // eslint-disable-next-line 
       }, [query])
     return (
         <Box>

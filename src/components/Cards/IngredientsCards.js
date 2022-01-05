@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {Dialog, CardActions, CardContent, Button, Typography, Card} from '@mui/material';
 import http from '../../service/httpService';
+import { toast } from 'react-toastify';
 
 import IngredientForm from "../Forms/IngredientForm";
 
@@ -15,6 +16,16 @@ const useStyles = makeStyles(theme => ({
 export default function Cards(props) {
   const classes = useStyles();
   const [openAdd, setOpenAdd] = useState(false);
+  const notifySuccess = () => {
+    toast.success("Item supprimé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifyError = () => {
+    toast.error("Item non supprimé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
 
     const handleOpenAdd = () => {
       setOpenAdd(true);
@@ -26,8 +37,10 @@ export default function Cards(props) {
     const handleDelete = () => {
       http.delete(`api/ingredient/` + props.Ingredient._id)
             .then((response) => {
-              console.log('delete')
-            }).catch()
+              notifySuccess()
+            }).catch(error => {
+              notifyError()
+            })
     };
   return (
     <Card sx={{ minWidth: 275 }} className={classes.Card} key={props.Ingredient.nom}>

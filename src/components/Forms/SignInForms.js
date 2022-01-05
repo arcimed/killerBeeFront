@@ -4,6 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Cookies from 'js-cookie';
 import http from '../../service/httpService';
+import { toast } from 'react-toastify';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +31,16 @@ const Form = ({ handleClose }) => {
   // create state variables for each input
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const notifySuccess = () => {
+    toast.success("Action réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifyError = () => {
+    toast.error("Action non réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -39,7 +51,10 @@ const Form = ({ handleClose }) => {
       })
       .then(response => {
         Cookies.set('user', response.data.token)
-      }).catch()
+        notifySuccess()
+      }).catch(error => {
+        notifyError()
+      })
     handleClose();
   };
 

@@ -6,6 +6,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import http from '../../service/httpService';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,6 +42,16 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   const [Ingredients, setIngredients] = useState(item.Freezbe ? item.Freezbe.ingredients : []);
   const [Grammage, setGrammage] = useState(item.Freezbe ? item.Freezbe.gramme : '');
   const [Data] = useState(ingredientsData ? ingredientsData : []);
+  const notifySuccess = () => {
+    toast.success("Action réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifyError = () => {
+    toast.error("Action non réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
   
   const handleSubmit = e => {
     e.preventDefault();
@@ -55,8 +66,11 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
         gramme : Grammage,
       })
       .then(response => {
+        notifySuccess()
         handleClose(true);
-      }).catch( handleClose(false) )
+      }).catch( error => {
+        notifyError()
+        handleClose(false)} )
     } else {
       http.post(`api/frisbee/`,
       {
@@ -68,8 +82,11 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
         gramme : Grammage,
       })
       .then(response => {
+        notifySuccess()
         handleClose(true);
-      }).catch( handleClose(false) )
+      }).catch( error => {
+        notifyError()
+        handleClose(false)} )
     }
   };
 
@@ -101,6 +118,7 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
       <TextField
         label="pUHT"
         variant="filled"
+        required
         type="number"
         value={pUHT}
         onChange={e => setpUHT(e.target.value)}
@@ -116,6 +134,7 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
           multiple
+          required
           value={Ingredients}
           onChange={handleChange}
           className={classes.formCase}
@@ -131,6 +150,7 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
         label="Grammage"
         variant="filled"
         type="number"
+        required
         value={Grammage}
         onChange={e => setGrammage(e.target.value)}
       />

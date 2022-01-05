@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Dialog from '@mui/material/Dialog';
 import EtapeForm from './EtapeForm';
 import http from '../../service/httpService';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +41,22 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const [Data] = useState(freezbeData ? freezbeData : []);
   const [OpenAdd, setOpenAdd] = useState(false);
   const [List, setList] = useState( item.Process ? item.Process.validationTest : []);
+  const notifySuccess = () => {
+    toast.success("Action réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifyError = () => {
+    toast.error("Action non réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifySuccessDelete = () => {
+    toast.success("Etape supprimé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+
   useEffect(() => {
     validationTest = []
     if(validationTest.length === 0 && item.Process) {
@@ -47,25 +64,30 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
         validationTest.push(option)
       ))
     }
+    // eslint-disable-next-line 
   },[item])
 
   useEffect(() => {
     setList(validationTest)
+    // eslint-disable-next-line 
   },[validationTest])
 
   const handleSubmit = e => {
     e.preventDefault();
     if(item.Process) {
-      http.put(`api/fabricationProcess/edit` + item.Process.id,
+      http.put(`api/fabricationProcess/` + item.Process._id,
       {
         nom: Nom,
         description: Description,
-        frisbee: Modele,
         validationTest: validationTest,
+        _v: null
       })
       .then(response => {
-        console.log("processFreezbe ajouté");
-      }).catch()       
+        notifySuccess()
+      }).catch(error => {
+        notifyError()
+        }
+      )       
     } else {
       http.post(`api/fabricationProcess/`,
       {
@@ -75,8 +97,11 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
         validationTest: validationTest,
       })
       .then(response => {
-        console.log("processFreezbe ajouté");
-      }).catch() 
+        notifySuccess()
+      }).catch(error => {
+        notifyError()
+        }
+      ) 
     }
       handleClose();
       validationTest = []
@@ -86,6 +111,7 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
       var index = validationTest.indexOf(editEtape);
       if (index > -1) {
         validationTest.splice(index, 1);
+        notifySuccessDelete()
       }
   };
   const handleOpenAdd = () => {

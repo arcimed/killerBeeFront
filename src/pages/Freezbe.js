@@ -87,6 +87,7 @@ const Freezbe = () => {
                 setData(response.data)
             }).catch()
           }
+        // eslint-disable-next-line 
       }, [query])
 
     return (
