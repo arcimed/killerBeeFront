@@ -6,7 +6,6 @@ axios.interceptors.request.use(
     config.headers.Authorization = `${Cookies.get('user')}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
     config.baseURL = 'http://localhost:3000/';
-
     return config;
   },
   function (error) {
@@ -19,5 +18,4 @@ export default {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
-  patch: axios.patch
 };
