@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 const IngredientForm = ({ handleClose, item }) => {
   const classes = useStyles();
+    var TexteRegex = /^[A-Za-z0-9]*$/
   // create state variables for each input
     const [Nom, setNom] = useState(item.Ingredient ? item.Ingredient.nom :'');
     const [Description, setDescription] = useState(item.Ingredient ? item.Ingredient.description : '');
@@ -39,30 +40,40 @@ const IngredientForm = ({ handleClose, item }) => {
         position: toast.POSITION.BOTTOM_CENTER
       });
     }
+    const notifyErrorChamps = () => {
+      toast.error("Champs non valide !", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }
 
 
   const handleSubmit = e => {
     e.preventDefault();
-    if(item.Ingredient) {
-    http.put(`api/ingredient/` + item.Ingredient._id,
-      {
-        nom: Nom,
-        description: Description,
-        gramme: Grammage
-      })
-      .then(response => {
-        notifySuccess()
-      }).catch(error => {notifyError()})     
+    if (TexteRegex.test(Nom) && TexteRegex.test(Description) && TexteRegex.test(Grammage)) {
+      if(item.Ingredient) {
+      http.put(`api/ingredient/` + item.Ingredient._id,
+        {
+          nom: Nom,
+          description: Description,
+          gramme: Grammage
+        })
+        .then(response => {
+          notifySuccess()
+          window.location.reload(false)
+        }).catch(error => {notifyError()})     
+      } else {
+        http.post(`api/ingredient/`,
+        {
+          nom: Nom,
+          description: Description,
+          gramme: Grammage
+        })
+        .then(response => {
+          notifySuccess()
+        }).catch(error => {notifyError()})  
+      }
     } else {
-      http.post(`api/ingredient/`,
-      {
-        nom: Nom,
-        description: Description,
-        gramme: Grammage
-      })
-      .then(response => {
-        notifySuccess()
-      }).catch(error => {notifyError()})  
+      notifyErrorChamps()
     }
     handleClose()
   };

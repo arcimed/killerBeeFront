@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,12 +33,23 @@ const ProcessForm = ({ handleClose }) => {
   // create state variables for each input
   const [Etape, setEtape] = useState('');
   const [Description, setDescription] = useState('');
+  var TexteRegex = /^[A-Za-z0-9]*$/
+
+  const notifyErrorChamps = () => {
+    toast.error("Champs non valide !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
 
   const handleSubmit = e => {
         e.preventDefault();
-        handleClose(Etape, Description);
+        if (TexteRegex.test(Etape) && TexteRegex.test(Description)) {
+          handleClose(Etape, Description);
+        } else {
+          notifyErrorChamps()
+        }
     };
-
+  
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
       <TextField

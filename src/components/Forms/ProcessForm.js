@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 let validationTest = []
 const ProcessForm = ({ handleClose, item, freezbeData }) => {
   const classes = useStyles();
+  var TexteRegex = /^[A-Za-z0-9]*$/
   // create state variables for each input
   const [Nom, setNom] = useState(item.Process ? item.Process.nom :'');
   const [Description, setDescription] = useState(item.Process ? item.Process.description :'');
@@ -48,6 +49,11 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
   }
   const notifyError = () => {
     toast.error("Action non réalisé !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
+  const notifyErrorChamps = () => {
+    toast.error("Champs non valide !", {
       position: toast.POSITION.BOTTOM_CENTER
     });
   }
@@ -74,34 +80,40 @@ const ProcessForm = ({ handleClose, item, freezbeData }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if(item.Process) {
-      http.put(`api/fabricationProcess/` + item.Process._id,
-      {
-        nom: Nom,
-        description: Description,
-        validationTest: validationTest,
-        _v: null
-      })
-      .then(response => {
-        notifySuccess()
-      }).catch(error => {
-        notifyError()
-        }
-      )       
-    } else {
-      http.post(`api/fabricationProcess/`,
-      {
-        nom: Nom,
-        description: Description,
-        frisbee: Modele,
-        validationTest: validationTest,
-      })
-      .then(response => {
-        notifySuccess()
-      }).catch(error => {
-        notifyError()
-        }
-      ) 
+    if (TexteRegex.test(Nom) && TexteRegex.test(Description)) {
+      if(item.Process) {
+        http.put(`api/fabricationProcess/` + item.Process._id,
+        {
+          nom: Nom,
+          description: Description,
+          validationTest: validationTest,
+          _v: null
+        })
+        .then(response => {
+          notifySuccess()
+          window.location.reload(false)
+        }).catch(error => {
+          notifyError()
+          }
+        )       
+      } else {
+        http.post(`api/fabricationProcess/`,
+        {
+          nom: Nom,
+          description: Description,
+          frisbee: Modele,
+          validationTest: validationTest,
+        })
+        .then(response => {
+          notifySuccess()
+          window.location.reload(false)
+        }).catch(error => {
+          notifyError()
+          }
+        ) 
+      }
+    }else {
+      notifyErrorChamps()
     }
       handleClose();
       validationTest = []

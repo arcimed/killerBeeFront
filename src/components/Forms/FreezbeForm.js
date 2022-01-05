@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 const IngredientForm = ({ handleClose, item, ingredientsData }) => {
   const classes = useStyles();
+  var TexteRegex = /^[A-Za-z0-9]*$/
   // create state variables for each input
   const [Nom, setNom] = useState(item.Freezbe ? item.Freezbe.nom :'');
   const [Description, setDescription] = useState(item.Freezbe ? item.Freezbe.description :'');
@@ -52,41 +53,51 @@ const IngredientForm = ({ handleClose, item, ingredientsData }) => {
       position: toast.POSITION.BOTTOM_CENTER
     });
   }
+  const notifyErrorChamps = () => {
+    toast.error("Champs non valide !", {
+      position: toast.POSITION.BOTTOM_CENTER
+    });
+  }
   
   const handleSubmit = e => {
     e.preventDefault();
-    if(item.Freezbe) {
-      http.put(`api/frisbee/` + item.Freezbe._id,
-      {
-        nom: Nom,
-        description: Description,
-        puht : pUHT,
-        gamme : Gamme,
-        ingredients : Ingredients,
-        gramme : Grammage,
-      })
-      .then(response => {
-        notifySuccess()
-        handleClose(true);
-      }).catch( error => {
-        notifyError()
-        handleClose(false)} )
-    } else {
-      http.post(`api/frisbee/`,
-      {
-        nom: Nom,
-        description: Description,
-        puht : pUHT,
-        gamme : Gamme,
-        ingredients : Ingredients,
-        gramme : Grammage,
-      })
-      .then(response => {
-        notifySuccess()
-        handleClose(true);
-      }).catch( error => {
-        notifyError()
-        handleClose(false)} )
+    if (TexteRegex.test(Nom) && TexteRegex.test(Description) && TexteRegex.test(pUHT) && TexteRegex.test(Gamme) && TexteRegex.test(Grammage)) {
+      if(item.Freezbe) {
+        http.put(`api/frisbee/` + item.Freezbe._id,
+        {
+          nom: Nom,
+          description: Description,
+          puht : pUHT,
+          gamme : Gamme,
+          ingredients : Ingredients,
+          gramme : Grammage,
+        })
+        .then(response => {
+          notifySuccess()
+          handleClose(true);
+        }).catch( error => {
+          notifyError()
+          handleClose(false)} )
+      } else {
+        http.post(`api/frisbee/`,
+        {
+          nom: Nom,
+          description: Description,
+          puht : pUHT,
+          gamme : Gamme,
+          ingredients : Ingredients,
+          gramme : Grammage,
+        })
+        .then(response => {
+          notifySuccess()
+          handleClose(true);
+        }).catch( error => {
+          notifyError()
+          handleClose(false)} )
+      }
+    }
+    else {
+      notifyErrorChamps()
     }
   };
 

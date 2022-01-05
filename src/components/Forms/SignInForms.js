@@ -52,6 +52,7 @@ const Form = ({ handleClose }) => {
       .then(response => {
         Cookies.set('user', response.data.token)
         notifySuccess()
+        window.location.reload(false)
       }).catch(error => {
         notifyError()
       })
